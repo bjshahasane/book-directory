@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { fetchBooks } from '../slices/bookSlice';
+import { fetchBooks, handleSearchVal } from '../slices/bookSlice';
 import Loader from '../loader';
 
 const SearchBar = () => {
@@ -12,11 +12,12 @@ const SearchBar = () => {
     const handleSearch = (e) => {
         const { name, value } = e.target;
         setQuery(value);
+        dispatch(handleSearchVal(value))
         let payload;
         if (!value) {
             payload = {
-                param: "page",
-                value: 1
+                page: 1,
+                search:query
             }
             dispatch(fetchBooks(payload)).then((response) => {
                 setIsLoading(true);
@@ -41,8 +42,7 @@ const SearchBar = () => {
         let payload;
         if (query) {
             payload = {
-                param: "title",
-                value: query
+                search: query
             }
             dispatch(fetchBooks(payload)).then((response) => {
                 setIsLoading(true);

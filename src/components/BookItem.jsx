@@ -52,8 +52,8 @@ const BookItem = ({ action, book, isOpen, onClose,sortVal }) => {
         setIsLoading(true);
         console.log("submitting");
         const values = {
-            param: "page",
-            value: 1,
+            search:"",
+            page: 1,
             sort:sortVal
         }
         const apiUrl = `http://68.178.162.203:8080/application-test-v1.1/books`;

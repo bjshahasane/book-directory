@@ -86,8 +86,8 @@ const ResultList = () => {
     const handleSelect = (e) => {
         setSortVal(e.target.value);
         const values = {
-            param: "page",
-            value: 1,
+            search: store.searchVal,
+            page: 1,
             sort: sortVal
 
         }
