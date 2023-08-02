@@ -20,7 +20,7 @@ const customStyles = {
     },
 };
 
-const BookItem = ({ action, book, isOpen, onClose,sortVal }) => {
+const BookItem = ({ action, book, isOpen, onClose, sortVal }) => {
 
     const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
@@ -52,9 +52,9 @@ const BookItem = ({ action, book, isOpen, onClose,sortVal }) => {
         setIsLoading(true);
         console.log("submitting");
         const values = {
-            search:"",
+            search: "",
             page: 1,
-            sort:sortVal
+            sort: sortVal
         }
         const apiUrl = `http://68.178.162.203:8080/application-test-v1.1/books`;
         if (modalView === "Add") {
@@ -62,26 +62,20 @@ const BookItem = ({ action, book, isOpen, onClose,sortVal }) => {
                 const response = await axios.post(apiUrl, bookPayload);
                 if (response.data) {
                     console.log("this is add response", response.data);
-                    dispatch(showNotification({ message: "Book Updated Succesfully", type: "success" }))
+                    dispatch(showNotification({ message: `${response.data.message}`, type: "success" }))
                     onClose();
-                    dispatch(fetchBooks(values)).then((response) => {
-                        if (response) {
-                            console.log("Book added Succesfully");
-
-                        } else {
-                        }
-                    })
-                        .catch((error) => {
-                            console.log("Error occurred:", error);
-                            setIsLoading(false);
-                        });
+                    dispatch(fetchBooks(values));
                     setIsLoading(false);
-
                 }
             } catch (error) {
-                dispatch(showNotification({ message: "Error Occured ", type: "error" }))
                 setIsLoading(false);
-                console.log("Error occurred:", error);
+                if (error.response.data.message) {
+                    dispatch(showNotification({ message: `${error.response.data.message}`, type: "error" }))
+                } else {
+                    dispatch(showNotification({ message: "Error Occured ", type: "error" }))
+
+                }
+                console.log("Error occurred 1:",error);
                 return false;
             }
         } else {
@@ -90,22 +84,17 @@ const BookItem = ({ action, book, isOpen, onClose,sortVal }) => {
                 if (response.data) {
                     console.log("this is add response", response.data);
                     onClose();
-                    dispatch(showNotification({ message: "Book Updated Succesfully", type: "success" }))
-                    dispatch(fetchBooks(values)).then((response) => {
-                        if (response) {
-                            console.log("Book updated Succesfully");
-                        } else {
-                            console.log("Error occurred while updating book.");
-                        }
-                    })
-                        .catch((error) => {
-                            // dispatch(showNotification({ message: "Error Occured while updating book", type: "error" }))
-                            console.log("Error occurred:", error);
-                        });
+                    dispatch(showNotification({ message: `${response.data.message}`, type: "success" }))
+                    dispatch(fetchBooks(values));
                     setIsLoading(false);
                 }
             } catch (error) {
-                dispatch(showNotification({ message: "Error Occured ", type: "error" }))
+                if (error.response.data.message) {
+                    dispatch(showNotification({ message: `${error.response.data.message}`, type: "error" }))
+                } else {
+                    dispatch(showNotification({ message: "Error Occured ", type: "error" }))
+
+                }
                 console.log("error occured")
                 setIsLoading(false);
                 return false;
