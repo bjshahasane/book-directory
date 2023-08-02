@@ -12,12 +12,13 @@ const SearchBar = () => {
     const handleSearch = (e) => {
         const { name, value } = e.target;
         setQuery(value);
-        dispatch(handleSearchVal(value))
+        console.log("this is value",value);
+        dispatch(handleSearchVal(value));
         let payload;
-        if (!value) {
+        if (value === "") {
             payload = {
                 page: 1,
-                search:query
+                search: value
             }
             dispatch(fetchBooks(payload)).then((response) => {
                 setIsLoading(true);
