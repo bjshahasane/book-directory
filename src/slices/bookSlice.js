@@ -2,10 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 
-export const fetchBooks = createAsyncThunk('header/fetchBooks', async (page) => {
+export const fetchBooks = createAsyncThunk('books/fetchBooks', async (payload) => {
+    let sortDir ="DESC";
+    if(payload.sort){
+        sortDir = payload.sort
+    }
+    // console.log("these are values", payload);
     try {
-        const response = await axios.get(`http://68.178.162.203:8080/application-test-v1.1/books?page=${page}`);
-        console.log("This is response", response.data);
+        const response = await axios.get(`http://68.178.162.203:8080/application-test-v1.1/books?sortDirection=${sortDir}${payload.param}=${payload.value}`);
+        // console.log("This is response", response.data);
         return response.data;
     } catch (error) {
         console.log("error occured")
@@ -17,8 +22,7 @@ export const fetchBooks = createAsyncThunk('header/fetchBooks', async (page) => 
 
 const initialValue = {
     results: [],
-    booksList: [],
-    pagination:{}
+    pagination: {}
 };
 
 export const bookSlice = createSlice({

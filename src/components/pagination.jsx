@@ -1,5 +1,5 @@
 import React from 'react';
-import  './pagination.css';
+import '../styles/pagination.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
@@ -20,7 +20,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         return paginationItems;
     }
     return (
-        <ul className='pagination'>{renderPaginationItems()}</ul>
+        <div>
+            <ul className='pagination'>{renderPaginationItems()}</ul>
+        </div>
     )
 }
 
